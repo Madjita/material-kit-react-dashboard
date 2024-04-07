@@ -1,20 +1,17 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-
-const CREDENTIALS = true;
+import {GetApi} from '../../src/api/api';
 
 export const loginEmail = async (username: string, password: string): Promise<any> => {
-  const url = `https://${window.location.hostname}:5000/login`;
-
   try {
-    var data = {
+    let data = {
       email: username,
       password: password
     }
-    const response: AxiosResponse = await axios.post(url, data, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('/login', data, {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: CREDENTIALS , // Разрешить отправку и сохранение куков
+      withCredentials: true , // Разрешить отправку и сохранение куков
     });
     console.log("response ",response);
     return response.data;
@@ -35,14 +32,13 @@ export const loginEmail = async (username: string, password: string): Promise<an
 
 
 export const loginTelegram = async (username: string): Promise<any> => {
-  const url = `https://${window.location.hostname}:5000/loginTelegram`;
   console.log("window.location.hostname = ",window.location.hostname)
   try {
-    const response: AxiosResponse = await axios.post(url, username, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('/loginTelegram', username, {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: CREDENTIALS , // Разрешить отправку и сохранение куков
+      withCredentials: true , // Разрешить отправку и сохранение куков
     });
     console.log("response ",response);
     return response.data;
@@ -62,14 +58,12 @@ export const loginTelegram = async (username: string): Promise<any> => {
 };
 
 export const logOut = async (): Promise<any> => {
-  const url = `https://${window.location.hostname}:5000/logout`;
-
   try {
-    const response: AxiosResponse = await axios.post(url, {}, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('/logout', {}, {
       headers: {
         'Accept': '	*/*',
       },
-      withCredentials: CREDENTIALS , // Разрешить отправку и сохранение куков
+      withCredentials: true , // Разрешить отправку и сохранение куков
     });
     console.log("response ",response);
     return response.data;

@@ -28,7 +28,7 @@ const useCustomers = (data, page, rowsPerPage) => {
 const useCustomerIds = (customers) => {
   return useMemo(
     () => {
-      return customers.map((customer) => customer.id);
+      return customers != undefined && customers.map((customer) => customer.id);
     },
     [customers]
   );

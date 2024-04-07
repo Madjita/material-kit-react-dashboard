@@ -302,7 +302,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
       }
       // Доступ к минимальным ценам и другим данным
       const minPrices = resultOrigin.data.minPrices;
-      var chartData = [];
+      let chartData = [];
 
       // Пример обхода данных и разбивки их по годам (предполагая, что "This year" и "Last year" относятся к разным годам)
       minPrices.forEach((priceData) => {
@@ -314,7 +314,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
 
       setChartDataOrigion(chartData);
 
-      var min = Math.min(...chartData);
+      let min = Math.min(...chartData);
       const selectedItems = minPrices.filter(item => Number(item.amount) === min);
       if(selectedItems.length > 0)
       {
@@ -331,7 +331,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
       /////////////////
       // Доступ к минимальным ценам и другим данным
       const minPricesDeparture = resultDeparture.data.minPrices;
-      var chartDataDeparture = [];
+      let chartDataDeparture = [];
 
       // Пример обхода данных и разбивки их по годам (предполагая, что "This year" и "Last year" относятся к разным годам)
       minPricesDeparture.forEach((priceData) => {
@@ -343,7 +343,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
 
       setChartDataDeparture(chartDataDeparture);
 
-      var minDeparture = Math.min(...chartDataDeparture);
+      let minDeparture = Math.min(...chartDataDeparture);
       const selectedDeparture = minPricesDeparture.filter(item => Number(item.amount) === minDeparture);
       if(selectedDeparture.length > 0)
       {

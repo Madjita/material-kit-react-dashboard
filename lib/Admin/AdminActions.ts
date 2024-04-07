@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import {ReduxThunkAction} from '../redux/store'
 
 import {AdminActions, RequestStatus} from './AdminReducer'
+import { GetApi } from '../../src/api/api';
 
 export const FETCH_ADMIN_DATA_REQUEST = 'FETCH_ADMIN_DATA_REQUEST';
 export const FETCH_ADMIN_DATA_SUCCESS = 'FETCH_ADMIN_DATA_SUCCESS';
@@ -23,10 +24,8 @@ export const fetchAdminDataFailure = (error: string) => ({
 });
 
 export const fetchAdminData =():ReduxThunkAction => async (dispatch, getState) => {
-
-    const url = `https://${window.location.hostname}:5000/Admin`;
     try {
-      const response: AxiosResponse<any> = await axios.get(url, {
+      const response: AxiosResponse<any> = await GetApi(window.location.hostname).get('/Admin', {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,6 +33,13 @@ export const fetchAdminData =():ReduxThunkAction => async (dispatch, getState) =
       });
       dispatch(AdminActions.setAdminData(response.data));
     } catch (error) {
-      dispatch(fetchAdminDataFailure(error.message));
+      if (error.code == "ERR_NETWORK" || (error.response && error.response.status === 401)) {
+        // Обрабатываем ошибку 401 (Unauthorized)
+        console.log("AdminData Unauthorized error: ",error);
+      } else {
+        // Обработка других ошибок
+        console.error("AdminData Error occurred: ", error);
+      }
+      dispatch(fetchAdminDataFailure(error.message))
     }
 };

@@ -2,14 +2,12 @@
 import axios, { AxiosResponse } from 'axios';
 import {ReduxThunkAction} from '../redux/store'
 import {RequestStatus, User, UserActions} from './User.store'
-import { getCookieValue } from '../../src/utils/get-cookie';
-import { loginEmail } from '../../src/contexts/AuthReqests';
+import {GetApi} from '../../src/api/api';
+
 interface UpdateUserArgs {login: string, password: string}
 
-var urlProtocol = "https";
-
 export const CheckCookie =():ReduxThunkAction => async (dispatch, getState) => {
-  var user = getState().user;
+  let user = getState().user;
   console.log("checkCookie dispatch sessionUID", user)
   
   if (user.userDto == null && user.requsetStatus.status != RequestStatus.ERROR) {
@@ -24,14 +22,10 @@ export const CheckCookie =():ReduxThunkAction => async (dispatch, getState) => {
 }
 
 export const GetUserFromSession = ():ReduxThunkAction => async (dispatch, getState) => {
-  const url = `${urlProtocol}://${window.location.hostname}:5000/loginTelegram`;
-
-  console.log("GetUserFromSession");
+  console.log("GetUserFromSession",window.location.hostname);
 
   try {
-    const response: AxiosResponse<User> = await axios.get(url, {
-      withCredentials: true , // Разрешить отправку и сохранение куков
-    });
+    const response: AxiosResponse<User> = await GetApi(window.location.hostname).get('/loginTelegram');
     console.log("GetUserFromSession response ",response);
 
     dispatch(UserActions.setUser(response.data))
@@ -53,16 +47,13 @@ export const GetUserFromSession = ():ReduxThunkAction => async (dispatch, getSta
 
 
 export const LoginTelegram = ({login}: UpdateUserArgs):ReduxThunkAction => async (dispatch, getState) => {
-  const url = `${urlProtocol}://${window.location.hostname}:5000/loginTelegram`;
-
   console.log("LoginTelegram");
 
   try {
-    const response: AxiosResponse<User> = await axios.post(url, login, {
+    const response: AxiosResponse<User> = await GetApi(window.location.hostname).post('/loginTelegram', login, {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true , // Разрешить отправку и сохранение куков
     });
     console.log("response ",response);
     // Проверка наличия куки "SessionUID"
@@ -82,9 +73,8 @@ export const LoginTelegram = ({login}: UpdateUserArgs):ReduxThunkAction => async
 
 export const LogOut = ():ReduxThunkAction => async (dispatch, getState) => {
   console.log("LogOut");
-  const url = `${urlProtocol}://${window.location.hostname}:5000/logout`;
   try {
-    const response: AxiosResponse = await axios.post(url, {}, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('/logout', {}, {
       headers: {
         'Accept': '	*/*',
       },
