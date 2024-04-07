@@ -34,7 +34,7 @@ export const GetUserFromSession = ():ReduxThunkAction => async (dispatch, getSta
   } catch (error) {
     if (error.code == "ERR_NETWORK" || (error.response && error.response.status === 401)) {
       // Обрабатываем ошибку 401 (Unauthorized)
-      console.log("Unauthorized error: ");
+      console.log("UserFromSession Unauthorized error: ");
       dispatch(UserActions.changeRequestStatus(RequestStatus.UserNotFound))
     } else {
       // Обработка других ошибок
