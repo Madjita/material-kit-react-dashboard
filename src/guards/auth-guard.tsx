@@ -22,19 +22,10 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   useEffect(() => {
 
-    //console.log("ssss ",router.isReady, isAuthenticated,userDto,"isAuthorizedStatus = [",isAuthorizedStatus,"]","auth=",auth);
-
     // Проверка аутентификации может занять некоторое время, поэтому лучше сначала убедиться, что роутер готов.
     if (!router.isReady) {
       return;
     }
-
-    // if(isAuthorizedStatus.status === RequestStatus.INITIAL)
-    // {
-    //   //если только была инициализация после обновления, то
-    //   return;
-    // }
-    
     console.log("AuthGuard:", isAuthorizedStatus.status, isAuthenticated);
     // Если пользователь не аутентифицирован, перенаправляем на страницу входа.
     if (!isAuthenticated) {
@@ -43,19 +34,6 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
       {
         router.replace({ pathname: '/auth/login' }).catch(console.error);
       }
-
-      //const continueUrl = router.asPath !== '/' ? { continueUrl: router.asPath } : undefined;
-      //router.replace({ pathname: '/auth/login', query: continueUrl }).catch(console.error);
-      //router.replace({ pathname: '/auth/login' }).catch(console.error);
-      /*if(continueUrl == undefined)
-      {
-        router.replace({ pathname: '/auth/login' }).catch(console.error);
-      }
-      else
-      {
-        //router.replace({ pathname: continueUrl.continueUrl }).catch(console.error);
-        router.replace({ pathname: '/auth/login', query: continueUrl }).catch(console.error);
-      }*/
 
     } else {
       setChecked(true);

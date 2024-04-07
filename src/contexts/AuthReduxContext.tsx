@@ -37,7 +37,7 @@ export function AuthReduxProvider({ children }: AuthReduxContextProps) {
 
   useEffect(() => {
     checkCookie();
-  }, [isAuthorizedStatus]); // Добавьте зависимость
+  }, [dispatch]); // Добавьте зависимость
 
   const contextValue: AuthReduxContextType = {
     isAuthorized,

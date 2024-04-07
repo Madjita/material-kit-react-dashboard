@@ -1,4 +1,4 @@
 import { useContext } from 'react';
-import { AuthReduxContext } from '../contexts/AuthReduxContext';
+import { AuthReduxContext,useAuthRedux } from '../contexts/AuthReduxContext';
 
-export const useAuth2 = () => useContext(AuthReduxContext)
+export const useAuth2 = () => useAuthRedux(AuthReduxContext)

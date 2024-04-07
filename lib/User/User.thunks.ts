@@ -9,19 +9,12 @@ interface UpdateUserArgs {login: string, password: string}
 var urlProtocol = "https";
 
 export const CheckCookie =():ReduxThunkAction => async (dispatch, getState) => {
-  
-  const sessionUID = getCookieValue('SessionUID') as any;
-
   var user = getState().user;
-  console.log("checkCookie dispatch sessionUID", sessionUID, sessionUID == null, user)
+  console.log("checkCookie dispatch sessionUID", user)
   
-  if (sessionUID != null && user.userDto == null && user.requsetStatus.status != RequestStatus.ERROR) {
-    dispatch(GetUserFromSession(sessionUID));
+  if (user.userDto == null && user.requsetStatus.status != RequestStatus.ERROR) {
+    dispatch(GetUserFromSession());
   }
-  // else if(sessionUID != null)
-  // {
-  //   dispatch(UserActions.haveCookie());
-  // }
   else
   {
     if(user.requsetStatus.status != RequestStatus.UserNotFound)
@@ -30,16 +23,13 @@ export const CheckCookie =():ReduxThunkAction => async (dispatch, getState) => {
   
 }
 
-export const GetUserFromSession = (sessionUID: string):ReduxThunkAction => async (dispatch, getState) => {
+export const GetUserFromSession = ():ReduxThunkAction => async (dispatch, getState) => {
   const url = `${urlProtocol}://${window.location.hostname}:5000/loginTelegram`;
 
-  console.log("GetUserFromSession sessionUID=",sessionUID);
+  console.log("GetUserFromSession");
 
   try {
     const response: AxiosResponse<User> = await axios.get(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
       withCredentials: true , // Разрешить отправку и сохранение куков
     });
     console.log("GetUserFromSession response ",response);
@@ -48,7 +38,15 @@ export const GetUserFromSession = (sessionUID: string):ReduxThunkAction => async
     dispatch(UserActions.changeRequestStatus(RequestStatus.SUCCESS))
 
   } catch (error) {
-    dispatch(UserActions.changeRequestStatus(RequestStatus.ERROR))
+    if (error.code == "ERR_NETWORK" || (error.response && error.response.status === 401)) {
+      // Обрабатываем ошибку 401 (Unauthorized)
+      console.log("Unauthorized error: ");
+      dispatch(UserActions.changeRequestStatus(RequestStatus.UserNotFound))
+    } else {
+      // Обработка других ошибок
+      console.error("Error occurred: ", error);
+      dispatch(UserActions.changeRequestStatus(RequestStatus.ERROR))
+    }
   }
 
 }
