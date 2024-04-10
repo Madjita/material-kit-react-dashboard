@@ -84,6 +84,7 @@ export const items = [
   {
     title: 'Admin',
     path: '/admin',
+    role: 'admin',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />

@@ -41,6 +41,11 @@ export const adminSlice = createSlice({
       state.requestStatus = RequestStatus.SUCCESS;
     },
     changeRequestStatus: (state: AdminState, action: PayloadAction<RequestStatus>) => {
+
+      if(action.payload === RequestStatus.ERROR)
+      {
+        state.adminData = [];
+      }
       state.requestStatus = action.payload;
     }
   }

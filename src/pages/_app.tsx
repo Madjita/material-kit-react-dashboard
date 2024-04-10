@@ -22,7 +22,6 @@ const App = (props: any) => {
   useNProgress();
 
   const getLayout = Component.getLayout ?? ((page: JSX.Element) => {
-    console.log("Page =", page);
     return page;
   });
 

@@ -7,7 +7,7 @@ export const loginEmail = async (username: string, password: string): Promise<an
       email: username,
       password: password
     }
-    const response: AxiosResponse = await GetApi(window.location.hostname).post('/login', data, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('api/Auth/login', data, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -34,7 +34,7 @@ export const loginEmail = async (username: string, password: string): Promise<an
 export const loginTelegram = async (username: string): Promise<any> => {
   console.log("window.location.hostname = ",window.location.hostname)
   try {
-    const response: AxiosResponse = await GetApi(window.location.hostname).post('/loginTelegram', username, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('api/Auth/loginTelegram', username, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -59,7 +59,7 @@ export const loginTelegram = async (username: string): Promise<any> => {
 
 export const logOut = async (): Promise<any> => {
   try {
-    const response: AxiosResponse = await GetApi(window.location.hostname).post('/logout', {}, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('api/Auth/logout', {}, {
       headers: {
         'Accept': '	*/*',
       },

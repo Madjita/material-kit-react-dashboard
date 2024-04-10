@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from '../../lib/redux';
-import { selectUserIsAuthorized, selectUserRequsetStatus } from '../../lib/User/User.selector';
+import { selectUserIsAuthorized, selectUserRequsetStatus, selectUserDto } from '../../lib/User/User.selector';
 import {useAuth2} from '../hooks/use-auth'
 import Spinner from '../components/Spinner/Spinner';
 import { RequestStatus } from '../../lib/User/User.store';
@@ -16,7 +16,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const auth = useAuth2();
   const isAuthenticated = useSelector(selectUserIsAuthorized)
   const isAuthorizedStatus = useSelector(selectUserRequsetStatus)
-  const userDto = useSelector(state => state.user.userDto)
+  const userDto = useSelector(selectUserDto)
 
   const [checked, setChecked] = useState(false);
 

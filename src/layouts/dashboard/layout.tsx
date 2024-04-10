@@ -43,7 +43,7 @@ export const Layout: React.FC<LayoutProps> = withAuthGuard(({ children }: Layout
 
   return (
     <>
-      <TopNav onNavOpen={() => setOpenNav(true)} />
+      <TopNav onNavOpen={() => setOpenNav(false)} />
       <SideNav onClose={() => setOpenNav(false)} open={openNav} />
       <LayoutRoot>
         <LayoutContainer>

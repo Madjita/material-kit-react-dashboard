@@ -25,14 +25,14 @@ export const GetUserFromSession = ():ReduxThunkAction => async (dispatch, getSta
   console.log("GetUserFromSession",window.location.hostname);
 
   try {
-    const response: AxiosResponse<User> = await GetApi(window.location.hostname).get('/loginTelegram');
+    const response: AxiosResponse<User> = await GetApi(window.location.hostname).get('api/loginTelegram');
     console.log("GetUserFromSession response ",response);
 
     dispatch(UserActions.setUser(response.data))
     dispatch(UserActions.changeRequestStatus(RequestStatus.SUCCESS))
 
   } catch (error) {
-    if (error.code == "ERR_NETWORK" || (error.response && error.response.status === 401)) {
+    if (error || (error.response && error.response.status === 401)) {
       // Обрабатываем ошибку 401 (Unauthorized)
       console.log("UserFromSession Unauthorized error: ");
       dispatch(UserActions.changeRequestStatus(RequestStatus.UserNotFound))
@@ -50,7 +50,7 @@ export const LoginTelegram = ({login}: UpdateUserArgs):ReduxThunkAction => async
   console.log("LoginTelegram");
 
   try {
-    const response: AxiosResponse<User> = await GetApi(window.location.hostname).post('/loginTelegram', login, {
+    const response: AxiosResponse<User> = await GetApi(window.location.hostname).post('api/loginTelegram', login, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -74,7 +74,7 @@ export const LoginTelegram = ({login}: UpdateUserArgs):ReduxThunkAction => async
 export const LogOut = ():ReduxThunkAction => async (dispatch, getState) => {
   console.log("LogOut");
   try {
-    const response: AxiosResponse = await GetApi(window.location.hostname).post('/logout', {}, {
+    const response: AxiosResponse = await GetApi(window.location.hostname).post('api/logout', {}, {
       headers: {
         'Accept': '	*/*',
       },

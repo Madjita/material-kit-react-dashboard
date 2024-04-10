@@ -13,6 +13,8 @@ import { applyPagination } from '../utils/apply-pagination';
 import { useDispatch, useSelector } from '../../lib/redux/store';
 import { fetchAdminData } from '../../lib/Admin/AdminActions';
 import { selectAdminDto } from '../../lib/Admin/Admin.selector';
+import { useRouter } from 'next/router';
+import { selectUserDto } from '../../lib/User/User.selector';
 
 const now = new Date();
 
@@ -38,13 +40,21 @@ const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const router = useRouter();
+  const userDto = useSelector(selectUserDto)
+
   //получить данные с сервера admin
   const dispatch = useDispatch();
   const adminData = useSelector(selectAdminDto)
   const customers = useCustomers(adminData,page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
-  
+
+  if(userDto?.role != "admin")
+  {
+    router.replace({ pathname: '/404' }).catch(console.error);
+  }
+
   useEffect(() => {
     console.log("test adminData useEffect");
     dispatch(fetchAdminData());

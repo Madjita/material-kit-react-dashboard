@@ -253,7 +253,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
     
     const [chartDataOrigion, setChartDataOrigion] = useState<ApexAxisChartSeries>(undefined);
     const [Origion, setOrigion] = useState("KJA");
-    const chartOptionsOrigion = useChartOptions(chartDataOrigion);
+    const chartOptionsOrigion = useChartOptions(chartDataOrigion as any);
     const [minValueOrigion, setMinimumValueOrigion] = useState(new Object as {
       amount: any,
       departureDate: any
@@ -262,7 +262,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
 
     const [chartDataDeparture, setChartDataDeparture] = useState<ApexAxisChartSeries>(undefined);
     const [Departure, setDeparture] = useState("MOW");
-    const chartOptionsDeparture = useChartOptions(chartDataDeparture);
+    const chartOptionsDeparture = useChartOptions(chartDataDeparture as any);
     const [minValueDeparture, setMinimumValueDeparture] = useState(new Object as {
       amount: any,
       departureDate: any
@@ -454,7 +454,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
             <Chart
               height={350}
               options={chartOptionsOrigion}
-              series={[{ data: chartDataOrigion }]}
+              series={[{ data: chartDataOrigion  as any}]}
               type="bar"
               width="100%"
               /> 
@@ -473,7 +473,7 @@ const OverviewAeroflotDays: React.FC<OverviewAeroflotDaysProps> = ({sx}) => {
               <Chart
               height={350}
               options={chartOptionsDeparture}
-              series={[{ data: chartDataDeparture }]}
+              series={[{ data: chartDataDeparture as any }]}
               type="bar"
               width="100%"
               /> 

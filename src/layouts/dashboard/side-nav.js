@@ -17,10 +17,13 @@ import Logo from 'src/components/logo';
 import { Scrollbar } from '../../components/Scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import { useSelector } from '../../../lib/redux/store';
+import { selectUserDto } from '../../../lib/User/User.selector';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
+  const userDto = useSelector(selectUserDto)
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   const content = (
@@ -74,7 +77,7 @@ export const SideNav = (props) => {
               m: 0
             }}
           >
-            {items.map((item) => {
+            {items.filter(item => item?.role === undefined || item?.role === userDto?.role).map((item) => {
               const active = item.path ? (pathname === item.path) : false;
 
               return (
