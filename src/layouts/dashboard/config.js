@@ -91,4 +91,13 @@ export const items = [
       </SvgIcon>
     )
   },
+  {
+    title: 'Manager',
+    path: '/manager/IndexManager',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
+  },
 ];

@@ -32,7 +32,7 @@ const Page = () => {
   
   console.log("Page LOGIN start");
 
-  const [method, setMethod] = useState('email');
+  const [method, setMethod] = useState('telegramUser');
   const formik = useFormik({
     initialValues: {
       email: 'demo@devias.io',
@@ -165,10 +165,10 @@ const Page = () => {
               sx={{ mb: 3 }}
               value={method}
             >
-              <Tab
+              {/* <Tab
                 label="Email"
                 value="email"
-              />
+              /> */}
               <Tab
                 label="Telegram User"
                 value="telegramUser"

@@ -17,7 +17,12 @@ export const fetchAdminData =():ReduxThunkAction => async (dispatch, getState) =
       if (error.code == "ERR_NETWORK" || (error.response && error.response.status === 401)) {
         // Обрабатываем ошибку 401 (Unauthorized)
         console.log("AdminData Unauthorized error");
-      } else {
+      } 
+      else if(error.code == "ERR_BAD_REQUEST" && (error.response && error.response.status === 403))
+      {
+        console.error("AdminData Auntification error",error);
+      }
+      else {
         // Обработка других ошибок
         console.error("AdminData Error occurred ",error);
       }
