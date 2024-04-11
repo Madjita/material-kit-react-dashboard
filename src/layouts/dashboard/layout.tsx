@@ -30,21 +30,17 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = withAuthGuard(({ children }: LayoutProps) => {
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
-
-  const handlePathnameChange = useCallback(() => {
+  
+  useEffect(() => {
     if (openNav) {
       setOpenNav(false);
     }
-  }, [openNav]);
-
-  useEffect(() => {
-    handlePathnameChange();
-  }, [pathname, handlePathnameChange]);
+  }, [pathname]);
 
   return (
     <>
-      <TopNav onNavOpen={() => setOpenNav(false)} />
-      <SideNav onClose={() => setOpenNav(false)} open={openNav} />
+      <TopNav onNavOpen={() => setOpenNav(!openNav)} />
+      <SideNav onClose={() => setOpenNav(!openNav)} open={openNav} />
       <LayoutRoot>
         <LayoutContainer>
           {children}
